@@ -19,6 +19,8 @@ fun FavoritesScreen(
     viewModel: FavoritesViewModel = viewModel(),
     onTitleChange: (ScaffoldUIState) -> Unit,
 ) {
+    val favoritesViewState: FavoritesViewState = viewModel.viewState.value
+
     val context = LocalContext.current
 
     // scaffoldUIState držíme na ViewModel, aby nám přežil rotaci screeny
@@ -48,8 +50,8 @@ fun FavoritesScreen(
     }
 
     // Aktualizace ScaffoldUIState
-    LaunchedEffect(viewModel.favoritesViewState.totalCount.value) {
-        scaffoldUIState.value = scaffoldUIState.value.copy(title = "Oblíbené: ${viewModel.favoritesViewState.totalCount.value}")
+    LaunchedEffect(favoritesViewState.totalCount.value) {
+        scaffoldUIState.value = scaffoldUIState.value.copy(title = "Oblíbené: ${favoritesViewState.totalCount.value}")
         onTitleChange(scaffoldUIState.value)
     }
 
