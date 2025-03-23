@@ -42,7 +42,11 @@ fun ProfileScreen(
         viewModel.eventFlow.collect { event ->
             when (event) {
                 is ProfileEvent.NavigateBack -> {
-                    navController.popBackStack()
+                    if (viewState.navigationLevel.intValue > 1) {
+                        navController.popBackStack()
+                    } else {
+                        navController.popBackStack("home", false)
+                    }
                 }
                 is ProfileEvent.NavigateToProfile -> {
                     navController.navigate("profile/${event.navigationLevel}")
