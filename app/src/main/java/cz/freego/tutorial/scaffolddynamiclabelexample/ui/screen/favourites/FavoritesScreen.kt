@@ -19,27 +19,27 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ButtonText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleLargeText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleMediumText
-import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.ScaffoldUIState
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.LocalMainViewModel
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.MainViewModel
 
 @Composable
 fun FavoritesScreen(
-    viewModel: FavoritesViewModel = viewModel(),
-    onTitleChange: (ScaffoldUIState) -> Unit,
+    mainViewModel: MainViewModel = LocalMainViewModel.current, // získáváme globální MainViewModel
+    viewModel: FavoritesViewModel = viewModel(), // vytváříme lokální FavoritesViewModel
 ) {
     val viewState: FavoritesViewState = viewModel.viewState.value
-
     val context = LocalContext.current
 
-    // scaffoldUIState držíme na ViewModel, aby nám přežil rotaci screeny
-    // Jedná se o čistší řešení, než držet na Compose přes rememberSaveable
-    // Navíc pro ScaffoldUIState bychom museli definovat jako Parcelable nebo
-    // vytvořit vlastní Saver
-    val scaffoldUIState = viewModel.scaffoldUIState
+    // sledujeme změny stavu scaffoldUI a při změně delegujeme do globálního mainViewModel
+    val scaffoldUIState = viewModel.scaffoldUIState.value
+    LaunchedEffect(scaffoldUIState) {
+        mainViewModel.updateScaffoldState(scaffoldUIState)
+    }
 
     // Odběr událostí z ViewModelu
     LaunchedEffect(viewModel.eventFlow) {
         // pokud se collectuje, tak donekonečna, v tomto případě neagregovat s jinými hodnotami,
-        // jinak vznikne "unreachable" code, proto držíme odděleně ve dvou LaunchEffects
+        // jinak vznikne "unreachable" code
         viewModel.eventFlow.collect { event ->
             when (event) {
                 is FavoritesEvent.ShowToast -> {
@@ -50,10 +50,6 @@ fun FavoritesScreen(
                 }
             }
         }
-    }
-
-    LaunchedEffect(scaffoldUIState.value) {
-        onTitleChange(scaffoldUIState.value)
     }
 
     Favorites.Content(

@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import cz.freego.tutorial.scaffolddynamiclabelexample.BaseViewModel
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.Action
@@ -13,7 +14,11 @@ class FavoritesViewModel(
     initialState: FavoritesViewState = FavoritesViewState()
 ) : BaseViewModel<FavoritesViewState, FavoritesEvent>(initialState), Favorites.Actions {
 
-    val scaffoldUIState = derivedStateOf {
+    // Držíme si stav ScaffoldUIState v lokálním view modelu, protože ho snadno synchronizujeme
+    // s hodnotami ViewState derivací a také nám snadno umožňuje nastavit actions přímo na funkce
+    // tohoto lokálního view model. Každou změnu stavu ScaffoldUIState sledujeme přes LaunchedEffect,
+    // kde ho synchronizujeme se stavem na globálním MainViewModel
+    val scaffoldUIState: State<ScaffoldUIState> = derivedStateOf {
         ScaffoldUIState(
             title = "Oblíbené: ${viewState.value.totalCount.value}",
             actions = listOf(

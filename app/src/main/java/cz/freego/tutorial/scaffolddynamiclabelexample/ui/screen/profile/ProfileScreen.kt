@@ -19,21 +19,27 @@ import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.BodySma
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ButtonText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleLargeText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleMediumText
-import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.ScaffoldUIState
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.LocalMainViewModel
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.MainViewModel
 
 @Composable
 fun ProfileScreen(
     navigationLevel: Int,
     navController: NavController,
-    viewModel: ProfileViewModel = viewModel(),
-    onTitleChange: (ScaffoldUIState) -> Unit,
+    mainViewModel: MainViewModel = LocalMainViewModel.current, // získáváme globální MainViewModel
+    viewModel: ProfileViewModel = viewModel {
+        ProfileViewModel(initialState = ProfileViewState(initialNavigationLevel = navigationLevel))
+    } // vytváříme lokální ProfileViewModel s přednastavenou hodnotou stavu navigationLevel
 ) {
     val viewState: ProfileViewState = viewModel.viewState.value
-    val scaffoldUIState = viewModel.scaffoldUIState
 
-    LaunchedEffect(scaffoldUIState.value, navigationLevel) {
+    val scaffoldUIState = viewModel.scaffoldUIState.value
+    LaunchedEffect(scaffoldUIState) {
+        mainViewModel.updateScaffoldState(scaffoldUIState)
+    }
+
+    LaunchedEffect(navigationLevel) {
         viewModel.setNavigationLevel(navigationLevel)
-        onTitleChange(scaffoldUIState.value)
     }
 
     // Odběr událostí z ViewModelu

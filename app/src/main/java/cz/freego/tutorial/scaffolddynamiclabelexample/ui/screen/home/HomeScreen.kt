@@ -12,11 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.BodySmallText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleLargeText
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.LocalMainViewModel
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.MainViewModel
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.ScaffoldUIState
 
 @Composable
-fun HomeScreen(onUIChange: (ScaffoldUIState) -> Unit) {
-    LaunchedEffect(Unit) { onUIChange(ScaffoldUIState(title = "Domů")) }
+fun HomeScreen(
+    mainViewModel: MainViewModel = LocalMainViewModel.current
+) {
+
+    // V případě této obrazovky chceme jen nastavit jednorázově title ve Scaffoldu, proto
+    // nemusíme držet stav ScaffoldUIState po celou dobu životnosti Screen a nastavíme přímo z UI
+    LaunchedEffect(Unit) {
+        mainViewModel.updateScaffoldState(ScaffoldUIState(title = "Domů"))
+    }
+
     Column (
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
