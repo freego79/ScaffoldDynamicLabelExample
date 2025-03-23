@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -18,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ButtonText
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleLargeText
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleMediumText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.ScaffoldUIState
 
 @Composable
@@ -81,49 +82,34 @@ object Favorites {
             Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
-            ) {
+        ) {
 
-            Text(
-                style = MaterialTheme.typography.titleLarge,
-                text = "Toto je obrazovka oblíbených"
-            )
-
+            TitleLargeText("Toto je obrazovka oblíbených")
             Spacer(Modifier.height(4.dp))
-
-            Text(
-                style = MaterialTheme.typography.titleMedium,
-                text = "Počet oblíbených: $count"
-            )
-
+            TitleMediumText("Počet oblíbených: $count")
             Spacer(Modifier.height(4.dp))
 
             Row {
                 Button(onClick = { actions.onIncOnesCounterClicked() }) {
-                    Text("Counter +1")
+                    ButtonText("Counter +1")
                 }
-
                 Spacer(Modifier.width(8.dp))
-
                 Button(onClick = { actions.onIncTensCounterClicked() }) {
-                    Text("Counter +10")
+                    ButtonText("Counter +10")
                 }
             }
 
             Row {
                 Button(onClick = { actions.resetCounterClicked() }) {
-                    Text("Reset")
+                    ButtonText("Reset")
                 }
-
                 Spacer(Modifier.width(8.dp))
 
                 val showHideText = if (isBottomNavigationVisible) "Skrýt" else "Zobrazit"
                 Button(onClick = { actions.setNavigationVisibility(!isBottomNavigationVisible) }) {
-                    Text(
-                        text = "$showHideText navigaci"
-                    )
+                    ButtonText("$showHideText navigaci")
                 }
             }
-
         }
     }
 

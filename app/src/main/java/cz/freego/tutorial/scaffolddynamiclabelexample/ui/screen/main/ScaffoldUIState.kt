@@ -3,7 +3,7 @@ package cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class ScaffoldUIState(
-    val title: String,
+    val title: String = "",
     val showBottomNavigation: Boolean = true,
     val actions: List<Action> = emptyList()
 )

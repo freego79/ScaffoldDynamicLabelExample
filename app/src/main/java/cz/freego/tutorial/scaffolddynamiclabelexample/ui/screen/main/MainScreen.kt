@@ -9,14 +9,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.BottomNavigationBar
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ScreenTitleText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.favourites.FavoritesScreen
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.home.HomeScreen
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.profile.ProfileScreen
@@ -39,13 +38,7 @@ fun MainScreen(
     val context = LocalContext.current
 
     // Dynamický stav scaffoldu
-    val currentScaffoldState = remember {
-        mutableStateOf(
-            ScaffoldUIState(
-                title = "",
-            )
-        )
-    }
+    val currentScaffoldState = remember { mutableStateOf(ScaffoldUIState()) }
 
     // získáme aktuální route, abychom rozlišili "home" obsah
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -54,26 +47,12 @@ fun MainScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = currentScaffoldState.value.title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
+                title = { ScreenTitleText(text = currentScaffoldState.value.title) },
                 navigationIcon = {
                     if (currentRoute == "home") {
                         // nestandardní zavírací křížek, když jsme na "home" - jen pro ukázku flexibility
-                        IconButton(
-                            onClick = {
-                                // Exit App
-                                (context as? android.app.Activity)?.finish()
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "ExitApp"
-                            )
+                        IconButton(onClick = { (context as? android.app.Activity)?.finish() }) {
+                            Icon(imageVector = Icons.Default.Close, contentDescription = "ExitApp")
                         }
                     } else {
                         // jinak klasický back, v tomto případě vždy návrat na "home"
@@ -82,7 +61,6 @@ fun MainScreen(
                                 // Pop back stack do "home" a vymazání historie
                                 // Pokud chceme zachovat celou historii, stačí volat bez parametrů
                                 navController.popBackStack("home", false)
-
                                 // Standardní back skrze celou historii
                                 // navController.popBackStack()
                             }
@@ -104,9 +82,7 @@ fun MainScreen(
             )
         },
         bottomBar = {
-            if (currentScaffoldState.value.showBottomNavigation) {
-                BottomNavigationBar(navController)
-            }
+            if (currentScaffoldState.value.showBottomNavigation) { BottomNavigationBar(navController) }
         }
     ) { paddingValues ->
         NavHost(
