@@ -12,12 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import cz.freego.tutorial.scaffolddynamiclabelexample.utils.baseRoute
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         BottomNavItem("home", Icons.Default.Home, "Domů"),
-        BottomNavItem("profile", Icons.Default.Person, "Profil"),
+        BottomNavItem("profile/1", Icons.Default.Person, "Profil"),
         BottomNavItem("favorites", Icons.Default.Favorite, "Oblíbené"),
     )
 
@@ -27,7 +28,7 @@ fun BottomNavigationBar(navController: NavController) {
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.label) },
                 label = { Text(item.label) },
-                selected = currentRoute == item.route,
+                selected = currentRoute?.baseRoute() == item.route.baseRoute(),
                 onClick = { navController.navigate(item.route) }
             )
         }

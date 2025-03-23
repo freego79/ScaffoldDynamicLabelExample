@@ -18,10 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.BottomNavigationBar
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.favourites.FavoritesScreen
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.home.HomeScreen
@@ -80,6 +82,9 @@ fun MainScreen(
                                 // Pop back stack do "home" a vymazání historie
                                 // Pokud chceme zachovat celou historii, stačí volat bez parametrů
                                 navController.popBackStack("home", false)
+
+                                // Standardní back skrze celou historii
+                                // navController.popBackStack()
                             }
                         ) {
                             Icon(
@@ -112,8 +117,15 @@ fun MainScreen(
             composable("home") {
                 HomeScreen { newUIState -> currentScaffoldState.value = newUIState }
             }
-            composable("profile") {
-                ProfileScreen { newUIState -> currentScaffoldState.value = newUIState }
+            composable(
+                route = "profile/{navigationLevel}",
+                arguments = listOf(navArgument("navigationLevel") { type = NavType.IntType }),
+            ) { backStackEntry ->
+                val navigationLevel = backStackEntry.arguments?.getInt("navigationLevel") ?: 1
+                ProfileScreen(
+                    navigationLevel = navigationLevel,
+                    navController = navController
+                ) { newUIState -> currentScaffoldState.value = newUIState }
             }
             composable("favorites") {
                 FavoritesScreen { newUIState -> currentScaffoldState.value = newUIState }

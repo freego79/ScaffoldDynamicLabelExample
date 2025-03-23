@@ -3,14 +3,20 @@ package cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.favourites
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.ScaffoldUIState
 
@@ -19,7 +25,7 @@ fun FavoritesScreen(
     viewModel: FavoritesViewModel = viewModel(),
     onTitleChange: (ScaffoldUIState) -> Unit,
 ) {
-    val favoritesViewState: FavoritesViewState = viewModel.viewState.value
+    val viewState: FavoritesViewState = viewModel.viewState.value
 
     val context = LocalContext.current
 
@@ -41,27 +47,19 @@ fun FavoritesScreen(
                 is FavoritesEvent.ExitEvent -> {
                     (context as? android.app.Activity)?.finish()
                 }
-                is FavoritesEvent.SetNavigationVisibility -> {
-                    scaffoldUIState.value = scaffoldUIState.value.copy(showBottomNavigation = event.isVisible)
-                    onTitleChange(scaffoldUIState.value)
-                }
             }
         }
     }
 
-    // Aktualizace ScaffoldUIState
-    LaunchedEffect(favoritesViewState.totalCount.value) {
-        scaffoldUIState.value = scaffoldUIState.value.copy(title = "Oblíbené: ${favoritesViewState.totalCount.value}")
+    LaunchedEffect(scaffoldUIState.value) {
         onTitleChange(scaffoldUIState.value)
     }
 
-    with(viewModel) {
-        Favorites.Content(
-            count = favoritesViewState.totalCount.value,
-            isBottomNavigationVisible = scaffoldUIState.value.showBottomNavigation,
-            actions = this,
-        )
-    }
+    Favorites.Content(
+        count = viewState.totalCount.value,
+        isBottomNavigationVisible = viewState.navigationVisible.value,
+        actions = viewModel,
+    )
 }
 
 object Favorites {
@@ -70,6 +68,7 @@ object Favorites {
         fun onIncOnesCounterClicked() = Unit
         fun onIncTensCounterClicked() = Unit
         fun setNavigationVisibility(isVisible: Boolean) = Unit
+        fun resetCounterClicked() = Unit
     }
 
     @Composable
@@ -83,22 +82,48 @@ object Favorites {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
             ) {
-            Text("Toto je obrazovka $count oblíbených")
 
-            Button(onClick = { actions.onIncOnesCounterClicked() }) {
-                Text("Counter +1")
+            Text(
+                style = MaterialTheme.typography.titleLarge,
+                text = "Toto je obrazovka oblíbených"
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            Text(
+                style = MaterialTheme.typography.titleMedium,
+                text = "Počet oblíbených: $count"
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            Row {
+                Button(onClick = { actions.onIncOnesCounterClicked() }) {
+                    Text("Counter +1")
+                }
+
+                Spacer(Modifier.width(8.dp))
+
+                Button(onClick = { actions.onIncTensCounterClicked() }) {
+                    Text("Counter +10")
+                }
             }
 
-            Button(onClick = { actions.onIncTensCounterClicked() }) {
-                Text("Counter +10")
+            Row {
+                Button(onClick = { actions.resetCounterClicked() }) {
+                    Text("Reset")
+                }
+
+                Spacer(Modifier.width(8.dp))
+
+                val showHideText = if (isBottomNavigationVisible) "Skrýt" else "Zobrazit"
+                Button(onClick = { actions.setNavigationVisibility(!isBottomNavigationVisible) }) {
+                    Text(
+                        text = "$showHideText navigaci"
+                    )
+                }
             }
 
-            val showHideText = if (isBottomNavigationVisible) "Skrýt" else "Zobrazit"
-            Button(onClick = { actions.setNavigationVisibility(!isBottomNavigationVisible) }) {
-                Text(
-                    text = "$showHideText navigaci"
-                )
-            }
         }
     }
 
