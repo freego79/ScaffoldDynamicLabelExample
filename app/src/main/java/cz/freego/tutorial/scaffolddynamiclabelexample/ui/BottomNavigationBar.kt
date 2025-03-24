@@ -25,11 +25,22 @@ fun BottomNavigationBar(navController: NavController) {
     NavigationBar {  // Používáme Material3 variantu
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         items.forEach { item ->
+            val isSelected = item.route.baseRoute() == currentRoute?.baseRoute()
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.label) },
                 label = { Text(item.label) },
-                selected = currentRoute?.baseRoute() == item.route.baseRoute(),
-                onClick = { navController.navigate(item.route) }
+                selected = isSelected,
+                onClick = {
+                    // tato podmínka zabrání zbytečnému znovuvytváření již vybrané a zobrazené sekce
+                    if (isSelected.not()) {
+                        navController.popBackStack(navController.graph.startDestinationId, false)
+                        navController.navigate(item.route) {
+                            popUpTo(item.route) { saveState = true } // zachová stav při návratu
+                            launchSingleTop = true // zabrání zbytečnému znovuvytváření obrazovek
+                            restoreState = true // zachová stav obrazovky při návratu
+                        }
+                    }
+                }
             )
         }
     }

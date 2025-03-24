@@ -1,10 +1,10 @@
 package cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.home
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -28,9 +28,8 @@ fun HomeScreen(
     }
 
     Column (
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxSize().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
         TitleLargeText("Toto je Domovská obrazovka")
         Spacer(Modifier.height(4.dp))

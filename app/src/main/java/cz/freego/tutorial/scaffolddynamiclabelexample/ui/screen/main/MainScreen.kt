@@ -1,5 +1,11 @@
 package cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -38,7 +44,6 @@ fun MainScreen(
     // podržíme si Context (jen pro exit app)
     val context = LocalContext.current
 
-    // získáme aktuální route, abychom rozlišili "home" obsah
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
@@ -60,13 +65,7 @@ fun MainScreen(
                         } else {
                             // jinak klasický back, v tomto případě vždy návrat na "home"
                             IconButton(
-                                onClick = {
-                                    // Pop back stack do "home" a vymazání historie
-                                    // Pokud chceme zachovat celou historii, stačí volat bez parametrů
-                                    navController.popBackStack("home", false)
-                                    // Standardní back skrze celou historii
-                                    // navController.popBackStack()
-                                }
+                                onClick = { navController.popBackStack() }
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -85,7 +84,11 @@ fun MainScreen(
                 )
             },
             bottomBar = {
-                if (mainViewModel.scaffoldState.showBottomNavigation) {
+                AnimatedVisibility(
+                    visible = mainViewModel.scaffoldState.showBottomNavigation,
+                    enter = slideInVertically(initialOffsetY = { it }) + fadeIn(animationSpec = tween(500)),
+                    exit = slideOutVertically(targetOffsetY = { it }) + fadeOut(animationSpec = tween(500)),
+                ) {
                     BottomNavigationBar(navController)
                 }
             }
