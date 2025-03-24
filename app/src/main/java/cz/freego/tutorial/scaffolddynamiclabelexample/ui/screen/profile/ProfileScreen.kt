@@ -7,16 +7,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.BodySmallText
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.PreviewShowcase
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ButtonText
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.DynamicBoldText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleLargeText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleMediumText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.LocalMainViewModel
@@ -81,14 +85,18 @@ object Profile {
         actions: Actions,
     ) {
         Column (
-            Modifier.fillMaxSize().padding(24.dp),
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(Modifier.height(16.dp))
 
             TitleLargeText("Toto je Profilová obrazovka")
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(16.dp))
             TitleMediumText("Úroveň zanoření: $navigationLevel")
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(8.dp))
 
             Row {
                 Button(onClick = { actions.navigateBack() }) {
@@ -103,10 +111,23 @@ object Profile {
                 }
             }
 
-            Spacer(Modifier.height(4.dp))
-            BodySmallText("Vnoření do 3. úrovně zobrazuje spodní navigační lištu, od " +
-                    "úrovně 4 až do úrovně 6 se spodní navigační lišta skryje.")
+            Spacer(Modifier.height(16.dp))
+            DynamicBoldText("Vnoření do 3. úrovně **zobrazuje** spodní navigační **lištu,** od " +
+                    "úrovně 4 až do úrovně 6 se spodní navigační **lišta skryje.**")
+
+            Spacer(Modifier.height(16.dp))
         }
     }
 
+}
+
+@PreviewLightDark
+@Composable
+private fun ProfileScreenPreview() {
+    PreviewShowcase {
+        Profile.Content(
+            navigationLevel = 3,
+            actions = object: Profile.Actions{}
+        )
+    }
 }

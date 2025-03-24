@@ -20,6 +20,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -29,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.BottomNavigationBar
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.PreviewShowcase
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ScreenTitleText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.favourites.FavoritesScreen
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.home.HomeScreen
@@ -116,5 +118,13 @@ fun MainScreen(
                 }
             }
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun MainScreenPreview() {
+    PreviewShowcase {
+        MainScreen()
     }
 }

@@ -10,8 +10,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.PreviewShowcase
 import cz.freego.tutorial.scaffolddynamiclabelexample.utils.baseRoute
 
 @Composable
@@ -47,3 +50,11 @@ fun BottomNavigationBar(navController: NavController) {
 }
 
 data class BottomNavItem(val route: String, val icon: ImageVector, val label: String)
+
+@PreviewLightDark
+@Composable
+private fun BottomNavigationBarPreview() {
+    PreviewShowcase {
+        BottomNavigationBar(navController = rememberNavController())
+    }
+}

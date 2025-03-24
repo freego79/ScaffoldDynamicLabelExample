@@ -2,12 +2,11 @@ package cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import cz.freego.tutorial.scaffolddynamiclabelexample.ui.theme.ScaffoldDynamicLabelExampleTheme
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.PreviewShowcase
 
 @Composable
 fun TitleLargeText(
@@ -57,17 +56,15 @@ fun ButtonText(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun TextsPreview() {
-    ScaffoldDynamicLabelExampleTheme {
-        Surface {
-            Column {
-                TitleLargeText("TitleLargeText")
-                TitleMediumText("TitleMediumText")
-                BodySmallText("BodySmallText")
-                ButtonText("ButtonText")
-            }
+    PreviewShowcase {
+        Column {
+            TitleLargeText("TitleLargeText")
+            TitleMediumText("TitleMediumText")
+            BodySmallText("BodySmallText")
+            ButtonText("ButtonText")
         }
     }
 }

@@ -8,14 +8,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.PreviewShowcase
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ButtonText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleLargeText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleMediumText
@@ -75,14 +79,18 @@ object Favorites {
         actions: Actions,
     ) {
         Column (
-            Modifier.fillMaxSize().padding(24.dp),
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(Modifier.height(16.dp))
 
             TitleLargeText("Toto je obrazovka oblíbených")
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(16.dp))
             TitleMediumText("Počet oblíbených: $count")
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(8.dp))
 
             Row {
                 Button(onClick = { actions.onIncOnesCounterClicked() }) {
@@ -105,7 +113,21 @@ object Favorites {
                     ButtonText("$showHideText navigaci")
                 }
             }
+
+            Spacer(Modifier.height(16.dp))
         }
     }
 
+}
+
+@PreviewLightDark
+@Composable
+private fun FavoritesScreenPreview() {
+    PreviewShowcase {
+        Favorites.Content(
+            count = 38,
+            isBottomNavigationVisible = true,
+            actions = object: Favorites.Actions {}
+        )
+    }
 }
