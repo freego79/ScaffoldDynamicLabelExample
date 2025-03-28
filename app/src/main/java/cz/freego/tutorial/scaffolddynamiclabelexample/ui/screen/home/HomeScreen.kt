@@ -88,7 +88,7 @@ private fun HomeScreenContent(
 
         RichText(
             style = MaterialTheme.typography.bodyMedium,
-            text = " Tato rozšířená textová komponenta **umožňuje přidat i leading ikonu** univerzálně" +
+            text = " Tato rozšířená textová komponenta **umožňuje přidat i leading ikonu** univerzálně " +
                     "jako **Composable obsah** pomocí parametru, včetně optional leadingIconSize " +
                     "(defaultně si bere velikost ze stylu textu, takže velikost leading ikony " +
                     "systémovému nastavení zvětšní písma - reflektuje accessibility, stejně jako " +
