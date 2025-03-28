@@ -20,7 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.PreviewShowcase
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.ButtonText
-import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.DynamicBoldText
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.RichText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleLargeText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.text.TitleMediumText
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.LocalMainViewModel
@@ -94,7 +94,8 @@ object Profile {
             Spacer(Modifier.height(16.dp))
 
             TitleLargeText("Toto je Profilová obrazovka")
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))
+
             TitleMediumText("Úroveň zanoření: $navigationLevel")
             Spacer(Modifier.height(8.dp))
 
@@ -112,7 +113,7 @@ object Profile {
             }
 
             Spacer(Modifier.height(16.dp))
-            DynamicBoldText("Vnoření do 3. úrovně **zobrazuje** spodní navigační **lištu,** od " +
+            RichText("Vnoření do 3. úrovně **zobrazuje** spodní navigační **lištu,** od " +
                     "úrovně 4 až do úrovně 6 se spodní navigační **lišta skryje.**")
 
             Spacer(Modifier.height(16.dp))

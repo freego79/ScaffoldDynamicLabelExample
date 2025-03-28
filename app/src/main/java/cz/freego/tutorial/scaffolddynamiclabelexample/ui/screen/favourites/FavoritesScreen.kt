@@ -88,7 +88,8 @@ object Favorites {
             Spacer(Modifier.height(16.dp))
 
             TitleLargeText("Toto je obrazovka oblíbených")
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))
+
             TitleMediumText("Počet oblíbených: $count")
             Spacer(Modifier.height(8.dp))
 

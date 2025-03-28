@@ -64,4 +64,9 @@ dependencies {
 
     // Navigation Compose (pro NavController, NavHost atd.)
     implementation(libs.androidx.navigation.compose)
+
+    // Podpora Emoji v Compose Text
+    implementation(libs.androidx.emoji2)
+    implementation(libs.androidx.emoji2.views.helper)
+
 }
