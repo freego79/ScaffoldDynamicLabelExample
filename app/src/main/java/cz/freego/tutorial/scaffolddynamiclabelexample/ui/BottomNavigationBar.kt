@@ -15,10 +15,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import cz.freego.tutorial.scaffolddynamiclabelexample.ui.components.PreviewShowcase
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.LocalMainViewModel
+import cz.freego.tutorial.scaffolddynamiclabelexample.ui.screen.main.MainViewModel
 import cz.freego.tutorial.scaffolddynamiclabelexample.utils.baseRoute
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(
+    navController: NavController,
+    mainViewModel: MainViewModel = LocalMainViewModel.current,
+) {
     val items = listOf(
         BottomNavItem("home", Icons.Default.Home, "Domů"),
         BottomNavItem("profile/1", Icons.Default.Person, "Profil"),
@@ -36,6 +41,7 @@ fun BottomNavigationBar(navController: NavController) {
                 onClick = {
                     // tato podmínka zabrání zbytečnému znovuvytváření již vybrané a zobrazené sekce
                     if (isSelected.not()) {
+                        mainViewModel.hideTopBanner() // zavřeme topBanner, pokud je zobrazen
                         navController.popBackStack(navController.graph.startDestinationId, false)
                         navController.navigate(item.route) {
                             popUpTo(item.route) { saveState = true } // zachová stav při návratu

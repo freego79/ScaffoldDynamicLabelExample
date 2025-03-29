@@ -36,6 +36,18 @@ fun TitleMediumText(
 }
 
 @Composable
+fun BodyMediumText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium,
+        text = text,
+    )
+}
+
+@Composable
 fun BodySmallText(
     text: String,
     modifier: Modifier = Modifier,
@@ -66,6 +78,7 @@ private fun TextsPreview() {
         Column {
             TitleLargeText("TitleLargeText")
             TitleMediumText("TitleMediumText")
+            BodyMediumText("BodyMediumText")
             BodySmallText("BodySmallText")
             ButtonText("ButtonText")
         }
