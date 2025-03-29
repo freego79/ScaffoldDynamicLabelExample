@@ -24,13 +24,14 @@ class MainViewModel : ViewModel() {
     }
 
     fun showTopBanner(
-        title: String?,
-        message: String?,
-        action1Label: String?,
-        action2Label: String?,
-        onAction1Click: (() -> Unit)?,
-        onAction2Click: (() -> Unit)?,
-        onOutsideClick: (() -> Unit)?,
+        title: String? = null,
+        message: String? = null,
+        action1Label: String? = null,
+        action2Label: String? = null,
+        onAction1Click: (() -> Unit)? = null,
+        onAction2Click: (() -> Unit)? = null,
+        onOutsideClick: (() -> Unit)? = null,
+        isModal: Boolean = false,
     ) {
         topBannerState = TopBannerUIState(
             visible = true,
@@ -41,6 +42,7 @@ class MainViewModel : ViewModel() {
             onAction1Click = onAction1Click,
             onAction2Click = onAction2Click,
             onOutsideClick = onOutsideClick,
+            isModal = isModal,
         )
     }
 

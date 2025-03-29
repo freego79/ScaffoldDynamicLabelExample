@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,7 +42,9 @@ fun TopBanner(
         Row {
             Box(modifier = Modifier.weight(1f)) {
                 topBannerUIState.action1Label?.let {
-                    Button(onClick = { topBannerUIState.onAction1Click?.invoke() }
+                    Button(
+                        modifier = Modifier.widthIn(min = 140.dp),
+                        onClick = { topBannerUIState.onAction1Click?.invoke() }
                     ) { ButtonText(it) }
                 }
             }
@@ -51,7 +54,9 @@ fun TopBanner(
                 contentAlignment = Alignment.TopEnd
             ) {
                 topBannerUIState.action2Label?.let {
-                    Button(onClick = { topBannerUIState.onAction2Click?.invoke() }
+                    Button(
+                        modifier = Modifier.widthIn(min = 140.dp),
+                        onClick = { topBannerUIState.onAction2Click?.invoke() }
                     ) { ButtonText(it) }
                 }
             }

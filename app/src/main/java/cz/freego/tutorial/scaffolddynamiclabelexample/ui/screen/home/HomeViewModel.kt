@@ -20,6 +20,7 @@ class HomeViewModel: BaseViewModel<HomeViewState, HomeEvent>(HomeViewState()), H
         onAction1Click: (() -> Unit)?,
         onAction2Click: (() -> Unit)?,
         onOutsideClick: (() -> Unit)?,
+        isModal: Boolean,
     ) {
         sendEvent(
             HomeEvent.ShowTopBanner(
@@ -30,6 +31,7 @@ class HomeViewModel: BaseViewModel<HomeViewState, HomeEvent>(HomeViewState()), H
                 onAction1Click = onAction1Click,
                 onAction2Click = onAction2Click,
                 onOutsideClick = onOutsideClick,
+                isModal = isModal,
             )
         )
     }

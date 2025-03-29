@@ -9,4 +9,5 @@ data class TopBannerUIState(
     val onAction1Click: (() -> Unit)? = null,
     val onAction2Click: (() -> Unit)? = null,
     val onOutsideClick: (() -> Unit)? = null,
+    val isModal: Boolean = false,
 )

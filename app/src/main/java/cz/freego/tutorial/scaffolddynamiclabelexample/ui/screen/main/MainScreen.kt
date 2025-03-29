@@ -72,7 +72,17 @@ fun MainScreen(
                     navigationIcon = {
                         if (currentRoute == "home") {
                             // nestandardní zavírací křížek, když jsme na "home" - jen pro ukázku flexibility
-                            IconButton(onClick = { (context as? android.app.Activity)?.finish() }) {
+                            IconButton(onClick = {
+                                mainViewModel.showTopBanner(
+                                    title = "Ukončení aplikace",
+                                    message = "Skutečně chcete ukončit aplikaci? Tento banner je modální a nelze ho zavřít kliknutím mimo něj.",
+                                    action1Label = "Ukončit",
+                                    action2Label = "Zpět",
+                                    onAction1Click = { (context as? android.app.Activity)?.finish() },
+                                    onAction2Click = { mainViewModel.hideTopBanner() },
+                                    isModal = true,
+                                )
+                            }) {
                                 Icon(
                                     imageVector = Icons.Default.Close,
                                     contentDescription = "ExitApp"
@@ -148,7 +158,9 @@ fun MainScreen(
                                 interactionSource = interactionSource,
                                 indication = null // Zruší vizuální efekt kliknutí
                             ) {
-                                mainViewModel.hideTopBanner()
+                                if (mainViewModel.topBannerState.isModal.not()) {
+                                    mainViewModel.hideTopBanner()
+                                }
                                 mainViewModel.topBannerState.onOutsideClick?.invoke()
                             }
                     )

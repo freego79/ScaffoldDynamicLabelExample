@@ -85,6 +85,7 @@ object Home {
             onAction1Click: (() -> Unit)? = null,
             onAction2Click: (() -> Unit)? = null,
             onOutsideClick: (() -> Unit)? = null,
+            isModal: Boolean = false,
         ) = Unit
     }
 
@@ -156,7 +157,7 @@ object Home {
                 onClick = {
                     actions.showTopBanner(
                         title = "Ups, něco se pokazilo!",
-                        message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tento banner není modální a lze ho zavřít kliknutím mimo něj.",
                         action1Label = "Say Hello!",
                         action2Label = "Rozumím",
                         onAction1Click = { actions.showMessage("Hello there!") },
